@@ -1,7 +1,7 @@
 {{#each board as |row|}}
   <div class='row'>
     {{#each row as |cell|}}
-      <div class='cell'></div>
+      <div class='cell {{if cell.alive 'alive'}}'></div>
     {{/each}}
   </div>
 {{/each}}
