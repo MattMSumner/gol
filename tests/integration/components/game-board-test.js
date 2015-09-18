@@ -40,6 +40,44 @@ test('still life does not change', function(assert) {
   assert.deepEqual(renderedBoard(this), this.get('initialState'), 'board should not change');
 });
 
+test('oscillators oscillate at the edges', function(assert) {
+  assert.expect(2);
+
+  this.set('width', 5);
+  this.set('height', 5);
+  this.set('initialState', [
+    [false, false, false, false, true ],
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [false, false, false, false, true ],
+    [false, false, false, false, true ],
+  ]);
+
+  this.render(hbs`
+    {{game-board width=width height=height initialState=initialState}}
+  `);
+
+  Ember.run(() => {
+    this.$('[data-role="step-action"]').click();
+  });
+
+  const expectedState = [
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [true,  false, false, true,  true ],
+  ];
+
+  assert.deepEqual(renderedBoard(this), expectedState, 'board should have changed');
+
+  Ember.run(() => {
+    this.$('[data-role="step-action"]').click();
+  });
+
+  assert.deepEqual(renderedBoard(this), this.get('initialState'), 'board should have changed back');
+});
+
 function renderedBoard(dom) {
   return dom.$('.row').map(function(index, row) {
     return [$(row).find('.cell').map(function(index, cell) {
