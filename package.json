@@ -33,6 +33,7 @@
     "ember-cli-release": "0.2.3",
     "ember-cli-sri": "^1.0.3",
     "ember-cli-uglify": "^1.2.0",
+    "ember-computed-decorators": "git://github.com:rwjblue/ember-computed-decorators.git#cedead9f5f7988753beab0c8e22429997c549b36",
     "ember-data": "2.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.4",

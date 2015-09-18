@@ -3,7 +3,10 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    // Add options here
+    hinting: false,
+    babel: {
+      optional: ['es7.decorators']
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
