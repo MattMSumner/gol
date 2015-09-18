@@ -1,5 +1,31 @@
 <h2 id="title">Welcome to Ember</h2>
 
-{{game-board width=10 height=10}}
+<div>
+  <label for='#width-input'>Width</label>
+  <input
+    id="board-width"
+    type="range"
+    value={{width}}
+    min="3"
+    max="100"
+    oninput={{action (mut widthPreview) value='target.value'}}
+    onchange={{action (mut width) value='target.value'}}>
+  {{widthPreview}}
+</div>
+
+<div>
+  <label for='#width-height'>Height</label>
+  <input
+    id="board-height"
+    type="range"
+    value={{height}}
+    min="3"
+    max="100"
+    oninput={{action (mut heightPreview) value='target.value'}}
+    onchange={{action (mut height) value='target.value'}}>
+  {{heightPreview}}
+</div>
+
+{{game-board width=width height=height}}
 
 {{outlet}}
