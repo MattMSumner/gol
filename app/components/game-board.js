@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   height: 0,
   width: 0,
   initialState: null,
+  playing: false,
 
   @computed('height', 'width', 'initialState')
   board(height, width, initialState) {
@@ -17,12 +18,21 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    togglePlay() {
+      const playing = this.toggleProperty('playing');
+      if (playing) { this.send('step'); }
+    },
+
     step() {
       const board = this.get('board');
 
       board.forEach(function(row) {
         row.invoke('step');
       })
+
+      if (this.get('playing')) {
+        this.set('runLater', Ember.run.next(this, this.send, 'step'));
+      }
     },
   },
 });

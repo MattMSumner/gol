@@ -78,6 +78,98 @@ test('oscillators oscillate at the edges', function(assert) {
   assert.deepEqual(renderedBoard(this), this.get('initialState'), 'board should have changed back');
 });
 
+test('play button continues to play the game and can pause', function(assert) {
+  assert.expect(3);
+
+  this.set('width', 17);
+  this.set('height', 17);
+  this.set('initialState', [
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  true,  true,  false, false, false, true,  true,  true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, true,  false, false, false, false, true,  false, true,  false, false, false, false, true,  false, false],
+    [false, false, true,  false, false, false, false, true,  false, true,  false, false, false, false, true,  false, false],
+    [false, false, true,  false, false, false, false, true,  false, true,  false, false, false, false, true,  false, false],
+    [false, false, false, false, true,  true,  true,  false, false, false, true,  true,  true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  true,  true,  false, false, false, true,  true,  true,  false, false, false, false],
+    [false, false, true,  false, false, false, false, true,  false, true,  false, false, false, false, true,  false, false],
+    [false, false, true,  false, false, false, false, true,  false, true,  false, false, false, false, true,  false, false],
+    [false, false, true,  false, false, false, false, true,  false, true,  false, false, false, false, true,  false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  true,  true,  false, false, false, true,  true,  true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+  ]);
+
+  this.render(hbs`
+    {{game-board width=width height=height initialState=initialState}}
+  `);
+
+  Ember.run(() => {
+    this.$('[data-role="play-action"]').click();
+  });
+
+  const expectedState1 = [
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false],
+    [false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false],
+    [false, false, false, false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, true,  true,  true,  false, false, true,  true,  false, true,  true,  false, false, true,  true,  true , false],
+    [false, false, false, true,  false, true,  false, true,  false, true,  false, true,  false, true,  false, false, false],
+    [false, false, false, false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false],
+    [false, false, false, true,  false, true,  false, true,  false, true,  false, true,  false, true,  false, false, false],
+    [false, true,  true,  true,  false, false, true,  true,  false, true,  true,  false, false, true,  true,  true , false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false],
+    [false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false],
+    [false, false, false, false, false, true,  false, false, false, false, false, true,  false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+  ];
+
+  assert.deepEqual(renderedBoard(this), expectedState1, 'board should have changed to the second state');
+
+  Ember.run(() => {
+    this.$('[data-role="play-action"]').click();
+  });
+
+  assert.deepEqual(renderedBoard(this), expectedState1, 'board should still be the second state');
+
+  Ember.run(() => {
+    this.$('[data-role="play-action"]').click();
+  });
+
+  const expectedState2 = [
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  true,  false, false, false, false, false, true,  true,  false, false, false, false],
+    [false, false, false, false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false],
+    [false, false, true,  false, false, true,  false, true,  false, true,  false, true,  false, false, true,  false, false],
+    [false, false, true,  true,  true,  false, true,  true,  false, true,  true,  false, true,  true,  true,  false, false],
+    [false, false, false, true,  false, true,  false, true,  false, true,  false, true,  false, true,  false, false, false],
+    [false, false, false, false, true,  true,  true,  false, false, false, true,  true,  true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, true,  true,  true,  false, false, false, true,  true,  true,  false, false, false, false],
+    [false, false, false, true,  false, true,  false, true,  false, true,  false, true,  false, true,  false, false, false],
+    [false, false, true,  true,  true,  false, true,  true,  false, true,  true,  false, true,  true,  true,  false, false],
+    [false, false, true,  false, false, true,  false, true,  false, true,  false, true,  false, false, true,  false, false],
+    [false, false, false, false, false, true,  true,  false, false, false, true,  true,  false, false, false, false, false],
+    [false, false, false, false, true,  true,  false, false, false, false, false, true,  true,  false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+  ];
+
+  assert.deepEqual(renderedBoard(this), expectedState2, 'board should have changed to the third state');
+
+  Ember.run(() => {
+    this.$('[data-role="play-action"]').click();
+  });
+});
+
 function renderedBoard(dom) {
   return dom.$('.row').map(function(index, row) {
     return [$(row).find('.cell').map(function(index, cell) {

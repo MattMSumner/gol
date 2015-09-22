@@ -7,3 +7,11 @@
 {{/each}}
 
 <button {{action 'step'}} data-role='step-action'>Step</button>
+
+<button {{action 'togglePlay'}} data-role='play-action'>
+  {{#if playing}}
+    pause
+  {{else}}
+    play
+  {{/if}}
+</button>
