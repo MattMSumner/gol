@@ -4,8 +4,8 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'gol',
     environment: environment,
-    baseURL: '/',
-    locationType: 'auto',
+    baseURL: '/gol',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
